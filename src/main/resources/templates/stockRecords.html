@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>进货单</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/me.css">
+
+</head>
+<body>
+
+<!--导航-->
+<nav th:replace="_fragments :: menu(3)" class="ui inverted segment m-padded-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu" >
+            <h2 class="ui teal header item">图书销售管理系统</h2>
+
+            <a href="#" class="m-item item m-mobile-hide"><i class="home icon "></i>书本库存</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i> 退货清单</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i> 进货清单</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="info icon"></i> 供应商进货</a>
+
+
+            <div class="right item ">
+                <div class="ui icon inverted transparent input m-mobile-hide">
+                    <!--            placeholder:表示灰色的输入文字-->
+                    <input type="text" placeholder="Search....">
+                    <i class="search  link icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--menu toggle只是用于获取该按钮-->
+    <a href="#" class="ui black icon button m-right-top m-mobile-show menu toggle">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+
+
+<!--数据输出-->
+<div  type="hidden" class="m-container-small m-padded-tb-big">
+    <div class="ui container">
+        <table class="ui basic table">
+            <thead>
+            <tr>
+                <th>图书名称</th>
+                <th>供应商</th>
+                <th>进货价</th>
+                <th>进货数量</th>
+                <th>总开销</th>
+                <th>进货时间</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="stockRecord : ${page.content}">
+                <td align="centre" th:text="${stockRecord.bookName}">刻意练习清单</td>
+                <td align="centre" th:text="${stockRecord.supplierName}">刻意练习清单</td>
+                <td align="centre" th:text="${stockRecord.inPrice}">19.0</td>
+                <td align="centre" th:text="${stockRecord.inNumber}">19.0</td>
+                <td align="centre" th:text="${stockRecord.totalCost}">19.0</td>
+                <td align="centre" th:text="${#dates.format(stockRecord.tradeTime,'yyyy-MM-dd hh:mm')}">19.0</td>
+            </tr>
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th colspan="6" >
+                    <div class="ui pagination menu mini" th:if="${page.totalPages>1}">
+                        <a  th:href="@{/stockRecs(pageNum=${page.pageNum}-1)}" class="icon item" th:unless="${page.pageNum}==1">上一页</a>
+                        <a  th:href="@{/stockRecs(pageNum=${page.pageNum}+1)}" class="icon item" th:unless="${page.pageNum}==${page.totalPages}">下一页</a>
+                    </div>
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<br>
+<br>
+<!--底部footer-->
+<footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided stackable grid">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img src="../static/images/book.jpg" class="ui rounded image" alt="" style="width: 110px">
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced " >操作介绍</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text-thin">后面再写</a>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我们</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text-thin">Email：xxxxxxxx.com</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">技术支持</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-mini"><i>telephone:88888888</i></p>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny"><i>Copyright @ 2020-2021 written for database system project</i></p>
+    </div>
+
+</footer>
+<!--/*/<th:block th:replace="_fragments :: script">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+        on : 'hover'
+    });
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--制作一个th片段，在其他地方可以引用到-->
+<!--片段可以进行传参，这里是不同的参数然后用不同的title-->
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <!--    设置移动端的页面大小-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    将整个元素都替换掉-->
+    <title th:replace="${title}">详情</title>
+    <!--    2.2.4-->
+    <link href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/typo.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <link th:href="@{/css/me.css}" rel="stylesheet">
+<body>
+
+
+<!--将导航栏作为一个frament，但要留意的内容就是哪个地方是要选中的-->
+<nav th:fragment="menu(n)" class="ui inverted segment m-padded-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu" >
+            <h2 class="ui teal header item">图书销售管理系统</h2>
+<!--            这里第几个标签选中，有一个就是th:classappend，在class中追加-->
+
+            <a href="#" th:href="@{/}" class="m-item item m-mobile-hide" th:classappend="${n==1}?'active'"><i class="home icon "></i> 书本库存</a>
+            <a href="#" th:href="@{/returnRecs}" class="m-item item m-mobile-hide" th:classappend="${n==2}?'active'"><i class="idea icon"></i> 退货清单</a>
+            <a href="#" th:href="@{/stockRecs}" class="m-item item m-mobile-hide" th:classappend="${n==3}?'active'"><i class="tags icon"></i> 进货清单</a>
+<!--            <a href="#" th:href="@{/archives.html/-1}"class="m-item item m-mobile-hide" th:classappend="${n==4}?'active'"><i class="clone icon"></i> 归档</a>-->
+            <a href="#" th:href="@{/suppliers}" class="m-item item m-mobile-hide" th:classappend="${n==4}?'active'"><i class="info icon"></i> 供应商进货</a>
+            <a href="#" th:href="@{/daySell}" class="m-item item m-mobile-hide" th:classappend="${n==5}?'active'"><i class="tags icon"></i>销售记录</a>
+
+            <div class="right item " th:unless="${n!=1&&n!=4}" >
+                    <form th:action="@{/search/{flag}(flag=${n})}" method="post">
+                        <div class="ui action mini  input">
+                            <input type="text" name="keyWord" placeholder="搜索...">
+                            <button class="ui button">搜索</button>
+                        </div>
+                    </form>
+            </div>
+
+
+    </div>
+
+
+    <!--menu toggle只是用于获取该按钮-->
+    <a href="#" class="ui black icon button m-right-top m-mobile-show menu toggle">
+        <i class="sidebar icon"></i>
+    </a>
+    </div>
+</nav>
+
+<footer th:fragment="footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class=" ui center aligned container ">
+        <!--        grid分成16份   divided分割线-->
+        <div class="ui inverted divided stackable grid">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img  th:src="@{/images/book.jpg}" class="ui rounded image" alt="" style="width: 100px">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="five wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">小组成员</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text-thin m-text-spaced" >苏蕾、王淳</a>
+                    <a href="#" class="item m-text-thin m-text-spaced">汤剑为、唐传宇</a>
+                </div>
+            </div>
+
+            <div class="seven wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">图书销售管理系统</h4>
+                <p class="m-opacity-mini m-text-thin m-text-spaced">一个较简单的图书管理系统，满足一般的进货、退货、销售、查询等功能...</p>
+            </div>
+        </div>
+        <!--        divider分割线-->
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny">Copyright © 2020 Designed by 405、506</p>
+    </div>
+</footer>
+
+<th:block th:fragment="script">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+</th:block>
+
+</body>
+</html>

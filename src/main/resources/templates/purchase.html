@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑页面</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/me.css">
+
+</head>
+<body>
+
+<!--导航-->
+<nav th:replace="_fragments :: menu(-1)" class="ui inverted segment m-padded-tb-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu" >
+            <h2 class="ui teal header item">图书销售管理系统</h2>
+
+            <a href="#" class="m-item item m-mobile-hide"><i class="home icon "></i>书本库存</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i> 退货清单</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i> 进货清单</a>
+            <a href="#" class="m-item item m-mobile-hide"><i class="info icon"></i> 供应商进货</a>
+
+
+            <div class="right item ">
+                <div class="ui icon inverted transparent input m-mobile-hide">
+                    <!--            placeholder:表示灰色的输入文字-->
+                    <input type="text" placeholder="Search....">
+                    <i class="search  link icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--menu toggle只是用于获取该按钮-->
+    <a href="#" class="ui black icon button m-right-top m-mobile-show menu toggle">
+        <i class="sidebar icon"></i>
+    </a>
+</nav>
+
+<!--数据输出-->
+<div  type="hidden" class="m-container-small m-padded-tb-big">
+    <div class="ui container">
+        <div  class="ui large success message">
+            <div class="header" >
+                进货单
+            </div>
+            <div class=" content">
+
+                <form action="#" th:action="@{/supplier/stock}" method="post" class="ui form" onsubmit="return check()">
+                    <div class="field" type="hidden">
+                        <input type="hidden" th:value="${supperlier.bookId}" name="bookId"></input>
+                    </div>
+                    <div class="field">
+                        <label>书名：</label>
+                        <input readonly type="text" th:value="${supperlier.bookName}" name="bookName">
+                    </div>
+                    <div class="field">
+                        <label>进货商：</label>
+                        <input readonly type="text" th:value="${supperlier.supplierName}" name="supplierName">
+                    </div>
+                    <div class="field">
+                        <label>进价：</label>
+                        <input readonly type="text" th:value="${supperlier.price}" name="inPrice">
+                    </div>
+                    <div class="field">
+                        <label>进货数量：</label>
+                        <input  name="inNumber" placeholder="请输入要售出的书本数目...">
+                    </div>
+                    <div class="field">
+                        <label>总价：</label>
+                        <input readonly type="text" id="cost" name="totalCost">
+                    </div>
+
+                    <div class="field">
+                        <label>制订售价：</label>
+                        <input  type="text" placeholder="请输入该书售价（不填默认售价为进价）..." name="outPrice">
+                    </div>
+
+                    <div class="actions">
+                        <button class="ui positive right labeled icon button" >
+                            提交
+                            <i class="checkmark icon"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="errorMsg" class="ui negative modal message">
+    <div type="text" class="header" id="msg">
+    </div>
+    <div class="content">请重新输入</div>
+</div>
+<br>
+<br>
+<!--底部footer-->
+<footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
+    <div class="ui center aligned container">
+        <div class="ui inverted divided stackable grid">
+            <div class="three wide column">
+                <div class="ui inverted link list">
+                    <div class="item">
+                        <img src="../static/images/book.jpg" class="ui rounded image" alt="" style="width: 110px">
+                    </div>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced " >操作介绍</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text-thin">后面再写</a>
+                </div>
+            </div>
+            <div class="three wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">联系我们</h4>
+                <div class="ui inverted link list">
+                    <a href="#" class="item m-text-thin">Email：xxxxxxxx.com</a>
+                </div>
+            </div>
+            <div class="seven wide column">
+                <h4 class="ui inverted header m-text-thin m-text-spaced ">技术支持</h4>
+                <p class="m-text-thin m-text-spaced m-opacity-mini"><i>telephone:88888888</i></p>
+            </div>
+        </div>
+        <div class="ui inverted section divider"></div>
+        <p class="m-text-thin m-text-spaced m-opacity-tiny"><i>Copyright @ 2020-2021 written for database system project</i></p>
+    </div>
+
+</footer>
+<!--/*/<th:block th:replace="_fragments :: script">/*/-->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('.ui.dropdown').dropdown({
+        on : 'hover'
+    });
+
+    $("[name='inNumber']").bind("input propertychange",function(event){
+        var num=$("[name='inNumber']").val();
+        var per=$("[name='inPrice']").val();
+        var total=per*num;
+        $("#cost").val(total);
+    });
+
+    function check()
+    {
+        var inNum=$("[name='inNumber']").val();
+        var outPrice=$("[name='outPrice']").val();
+
+        if(inNum.replace(/(^s*)|(s*$)/g,"").length==0||outPrice.replace(/(^s*)|(s*$)/g,"").length==0)
+        {
+            $('#errorMsg #msg').text("error:请输入退货数量！");
+            $('#errorMsg').modal('show');
+            return false;
+        }
+        else if(isNaN(inNum)||isNaN(outPrice)) {
+            $('#errorMsg #msg').text("error:输入不合法！");
+            $('#errorMsg').modal('show');
+            return false;
+        }
+        else if(String(inNum).indexOf(".")+1>0)
+        {
+            $('#errorMsg #msg').text("error:输入不合法！");
+            $('#errorMsg').modal('show');
+            return false;
+        }
+        else if(inNum<0||outPrice<0)
+        {
+            $('#errorMsg #msg').text("error:输入不合法！");
+            $('#errorMsg').modal('show');
+            return false;
+        }
+        return true;
+    }
+
+</script>
+</body>
+</html>

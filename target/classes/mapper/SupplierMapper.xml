@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.su.booksale.mapper.SupplierMapper">
+
+    <select id="listSuppliers" resultType="Supplier">
+        select * from supplier ORDER BY  bookName ,price ASC
+    </select>
+
+    <select id="getSupplierById" parameterType="long" resultType="Supplier">
+        select * from supplier where id=#{id}
+    </select>
+
+    <select id="search" parameterType="String" resultType="Supplier">
+         SELECT * FROM booksell.supplier  where bookName like concat('%',#{keyWord},'%') order by bookName ,price ASC
+    </select>
+</mapper>

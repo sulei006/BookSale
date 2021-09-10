@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name:  com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/booksell?useUnicode=true&characterEncoding=utf-8&useAffectedRows=true
+    username: su
+    password: 123
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.su.booksale.pojo
+
+server:
+  port: 9090
+
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
